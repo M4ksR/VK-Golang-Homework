@@ -1,1 +1,3 @@
-# VK-Golang-Homework
+## Описание
+
+GitHub репозиторий для решенных домашних работ с курса по Golang от VKeducation
