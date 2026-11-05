@@ -1,0 +1,114 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "HTTP API для получения информации о фильмах из внешнего сервиса.\nПозволяет загрузить фильмы по диапазону ID и найти последний существующий фильм.",
+        "title": "Movies API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "basePath": "/",
+    "paths": {
+        "/last-movie": {
+            "get": {
+                "description": "Находит последний существующий фильм",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "movies"
+                ],
+                "summary": "Получить последний фильм",
+                "responses": {
+                    "200": {
+                        "description": "Последний фильм",
+                        "schema": {
+                            "$ref": "#/definitions/movie.Movie"
+                        }
+                    },
+                    "404": {
+                        "description": "Фильмы не найдены",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "502": {
+                        "description": "Ошибка внешнего стенда",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/load-movies": {
+            "get": {
+                "description": "Загружает фильмы по диапазону ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "movies"
+                ],
+                "summary": "Загрузить фильмы",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Начальный ID фильма",
+                        "name": "from",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Конечный ID фильма",
+                        "name": "to",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Список фильмов",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/movie.Movie"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Некорректные параметры",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "502": {
+                        "description": "Ошибка загрузки фильмов",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "movie.Movie": {
+            "type": "object",
+            "properties": {
+                "director": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "year": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}
