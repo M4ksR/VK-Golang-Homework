@@ -1,6 +1,6 @@
 module M4ksR/VK-Golang-Homework.git
 
-go 1.27.1
+go 1.26.4
 
 require (
 	github.com/swaggo/http-swagger/v2 v2.0.2
