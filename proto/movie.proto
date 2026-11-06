@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package movies.v1;
+
+option go_package = "M4ksR/VK-Golang-Homework.git/gen/moviesv1;moviesv1";
+
+message Movie {
+    int64 id = 1;
+    string title = 2;
+    int32 year = 3;
+    string director = 4;
+}
+
+message LoadMoviesRequest {
+    int64 from = 1;
+    int64 to = 2;
+}
+
+message LoadFailure {
+    int64 id = 1;
+    string message = 2;
+}
+
+message LoadMoviesResponse {
+    repeated Movie movies = 1;
+    repeated LoadFailure failures = 2;
+}
+
+message GetLastMovieRequest {}
+
+service MovieService {
+    rpc LoadMovies(LoadMoviesRequest) 
+        returns (LoadMoviesResponse);
+
+    rpc GetLastMovie(GetLastMovieRequest) 
+        returns (Movie);
+}

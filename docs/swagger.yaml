@@ -1,0 +1,77 @@
+basePath: /
+definitions:
+  movie.Movie:
+    properties:
+      director:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+      year:
+        type: integer
+    type: object
+info:
+  contact: {}
+  description: |-
+    HTTP API для получения информации о фильмах из внешнего сервиса.
+    Позволяет загрузить фильмы по диапазону ID и найти последний существующий фильм.
+  title: Movies API
+  version: "1.0"
+paths:
+  /last-movie:
+    get:
+      description: Находит последний существующий фильм
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Последний фильм
+          schema:
+            $ref: '#/definitions/movie.Movie'
+        "404":
+          description: Фильмы не найдены
+          schema:
+            type: string
+        "502":
+          description: Ошибка внешнего стенда
+          schema:
+            type: string
+      summary: Получить последний фильм
+      tags:
+      - movies
+  /load-movies:
+    get:
+      description: Загружает фильмы по диапазону ID
+      parameters:
+      - description: Начальный ID фильма
+        in: query
+        name: from
+        required: true
+        type: integer
+      - description: Конечный ID фильма
+        in: query
+        name: to
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Список фильмов
+          schema:
+            items:
+              $ref: '#/definitions/movie.Movie'
+            type: array
+        "400":
+          description: Некорректные параметры
+          schema:
+            type: string
+        "502":
+          description: Ошибка загрузки фильмов
+          schema:
+            type: string
+      summary: Загрузить фильмы
+      tags:
+      - movies
+swagger: "2.0"
